@@ -1,3 +1,9 @@
 ---
 - name: Apacheをインストール
   yum: name=httpd-2.2.15 state=latest
+
+- name: ServerSignatureコメントアウト（サーバー情報を隠匿）
+  replace:
+    dest=/etc/httpd/conf/httpd.conf
+    regexp='^ServerSignature On'
+    replace='# ServerSignature On'
