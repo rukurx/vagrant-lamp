@@ -1,0 +1,19 @@
+- name: iptablesの設定
+  # データ無しパケット、ステルススキャン、SYNflood攻撃と思われる接続を破棄する
+  command: iptables -A INPUT -p tcp --tcp-flags ALL NONE -j DROP
+  command: iptables -A INPUT -p tcp --tcp-flags ALL ALL -j DROP
+  command: iptables -A INPUT -p tcp ! --syn -m state --state NEW -j DROP
+
+  # localhost、pingからの通信許可
+  command: iptables -A INPUT -i lo -j ACCEPT
+  command: iptables -A INPUT -p icmp -j ACCEPT
+
+  # HTTP HTTPS追加
+  command: iptables -I INPUT 5 -p tcp --dport https -j ACCEPT
+  command: iptables -I INPUT 5 -p tcp --dport http -j ACCEPT
+  tags: iptables
+
+  # iptables再起動
+- name: MySQLを起動、自動起動を有効化
+  service: name=iptables state=running enabled=yes
+  tags: iptables
