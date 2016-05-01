@@ -1,0 +1,46 @@
+---
+- name: EPELリポジトリをインストール
+  yum: name=epel-release state=present
+  tags:
+    - php
+
+- name: Remiリポジトリがインストール済か
+  shell: rpm -q remi-release
+  register: remi_release_status
+  failed_when: False
+  changed_when: False
+  tags:
+    - php
+
+- name: Remiリポジトリをインストール
+  yum: name="http://rpms.remirepo.net/enterprise/remi-release-6.rpm"
+  when: remi_release_status|failed
+  tags:
+    - php
+
+- name: PHP 5.3をインストール
+  yum: name={{ item }} state=present
+  with_items:
+    - php-5.3.3
+    - php-cli
+    - php-common
+    - php-devel
+    - php-gd
+    - php-imap
+    - php-json
+    - php-mbstring
+    - php-mcrypt
+    - php-mysql
+    - php-pdo
+    - php-pear
+    - php-pecl-apc
+    - php-pecl-apc-devel
+    - php-pecl-memcached
+    - php-pecl-zip
+    - php-pgsql
+    - php-process
+    - php-xml
+  notify:
+    - Apacheを再起動
+  tags:
+    - php

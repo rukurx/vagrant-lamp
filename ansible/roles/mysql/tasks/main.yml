@@ -1,0 +1,13 @@
+---
+- name: MySQLをインストール
+  yum: name={{ item }} state=present
+  with_items:
+    - mysql
+    - mysql-devel
+    - mysql-server
+  tags:
+    - mysql
+
+- name: MySQLを起動、自動起動を有効化
+  service: name=mysqld state=running enabled=yes
+  tags: mysql

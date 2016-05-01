@@ -1,0 +1,77 @@
+---
+- name: 基本パッケージをインストール
+  yum: name={{ item }} state=present
+  with_items:
+    - gcc
+    - gcc-c++
+    - make
+    - wget
+    - zip
+    - unzip
+    - vsftpd
+    - vim
+    - git
+    - ntp
+    - tree
+    - telnet
+# - zlib
+# - zlib-devel
+# - libxml2-devel
+# - libxslt-devel
+# - openssl
+# - openssl-devel
+# - lsof
+# - ncurses-devel
+# - cmake
+# - bison
+# - pcre-devel
+# - OpenIPMI-devel
+# - automake
+# - libstdc++-devel
+# - curl-devel
+# - krb5-devel
+# - libgssapi-devel
+# - e2fsprogs-libs
+# - net-snmp-devel
+# - libidn-devel
+# - glibc-devel
+# - openldap-devel
+# - unixODBC-devel
+# - OpenIPMI
+# - libssh2-devel
+# - libcrypto.so.6
+# - libreadline.so.5
+# - libssl.so.6
+# - libtermcap.so.2
+# - ipa-pgothic-fonts
+# - mailcap
+# - ImageMagick
+# - ImageMagick-devel
+# - cyrus-sasl-plain
+
+- name: CentOSのタイムゾーンを日本のタイムゾーンに設定
+  command: cp -p /usr/share/zoneinfo/Japan /etc/localtime
+
+- name: ntpdサーバーの日付を設定
+  command: ntpdate ntp.nict.jp
+  failed_when: False
+  changed_when: False
+
+- name: ntpの既存設定をコメントアウト
+  replace:
+    dest=/etc/ntp.conf
+    regexp='^server \d\.centos\.pool\.ntp\.org iburst'
+    replace='# server $1\.centos\.pool\.ntp\.org iburst'
+
+- name: ntpに日本時間の設定を末尾に追加
+  lineinfile:
+    dest=/etc/ntp.conf
+    line={{ item }}
+  with_items:
+    - 'server -4 ntp.nict.jp'
+    - 'server -4 ntp1.jst.mfeed.ad.jp'
+    - 'server -4 ntp2.jst.mfeed.ad.jp'
+    - 'server -4 ntp3.jst.mfeed.ad.jp'
+
+- name: ntpdを起動、自動起動の有効化
+  service: name=ntpd state=started enabled=yes

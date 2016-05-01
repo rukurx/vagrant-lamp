@@ -1,0 +1,3 @@
+---
+- name: Apache起動、自動起動有効化
+  service: name=httpd state=started enabled=yes

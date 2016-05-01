@@ -1,0 +1,8 @@
+- name: Install libselinux-python
+  yum: name=libselinux-python state=present
+
+- name: SELinuxのDisable設定
+  selinux: state=disabled
+
+- name: SELINUXの設定を有効化（再起動）
+  command: shutdown -r 0

@@ -1,0 +1,8 @@
+[vagrant]
+vagrant001
+
+[web]
+vagrant001
+
+[db]
+vagrant001

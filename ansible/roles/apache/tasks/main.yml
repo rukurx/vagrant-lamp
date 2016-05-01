@@ -1,0 +1,10 @@
+---
+- name: Apacheインストール
+  include: install.yml
+  tags:
+    - apache
+
+- name: Apacheセットアップ
+  include: setup.yml
+  tags:
+    - apache
