@@ -5,9 +5,16 @@
     - mysql
     - mysql-devel
     - mysql-server
+    - MySQL-python
   tags:
     - mysql
 
 - name: MySQLを起動、自動起動を有効化
   service: name=mysqld state=running enabled=yes
   tags: mysql
+
+- name: データベース作成
+  mysql_db: name={{ db_name }} state=present
+
+- name: ユーザー作成
+  mysql_user: name={{ user_name }} password={{ password }} priv=*.*:ALL,GRANT state=present
