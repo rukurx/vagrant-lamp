@@ -2,6 +2,7 @@
 - hosts: web
   become: yes
   roles:
+    - iptables
     - base
     - apache
     - php
