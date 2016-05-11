@@ -14,6 +14,18 @@
     regexp='^ServerSignature On'
     replace='# ServerSignature On'
 
+- name: ファイル一覧表示しない
+  replace:
+    dest=/etc/httpd/conf/httpd.conf
+    regexp='Options Indexes FollowSymLinks'
+    replace='Options -Indexes FollowSymLinks'
+
+- name: .htaccessを有効にする
+  replace:
+    dest=/etc/httpd/conf/httpd.conf
+    regexp='AllowOverride None'
+    replace='AllowOverride All'
+
 - name: DocumentRoot作成
   command: mkdir -p {{ apache_document_root }}
 
