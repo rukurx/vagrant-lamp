@@ -44,3 +44,75 @@
     - Apacheを再起動
   tags:
     - php
+
+- name: PHPをタイムゾーンの設定
+  replace: >
+    dest=/etc/php.ini
+    regexp="^;date\.timezone ="
+    replace="date.timezone = Asia/Tokyo"
+  tags:
+    - php
+
+- name: 文字コード
+  replace: >
+    dest=/etc/php.ini
+    regexp='^;default_charset = "iso-8859-1"'
+    replace='default_charset = "UTF-8"'
+  tags:
+    - php
+
+- name: PHPのバージョン情報隠匿
+  replace: >
+    dest=/etc/php.ini
+    regexp="^expose_php = On"
+    replace="expose_php = Off"
+  tags:
+    - php
+
+- name: mbstring.language
+  replace: >
+    dest=/etc/php.ini
+    regexp="^;mbstring.language = Japanese"
+    replace="mbstring.language = Japanese"
+  tags:
+    - php
+
+- name: mbstring.internal_encoding
+  replace: >
+    dest=/etc/php.ini
+    regexp="^;mbstring.internal_encoding = EUC-JP"
+    replace="mbstring.internal_encoding = UTF-8"
+  tags:
+    - php
+
+- name: mbstring.encoding_translation
+  replace: >
+    dest=/etc/php.ini
+    regexp="^;mbstring.encoding_translation = Off"
+    replace="mbstring.encoding_translation = Off"
+  tags:
+    - php
+
+- name: mbstring.http_input
+  replace: >
+    dest=/etc/php.ini
+    regexp="^;mbstring.http_input = auto"
+    replace="mbstring.http_input = pass"
+  tags:
+    - php
+
+- name: mbstring.http_output
+  replace: >
+    dest=/etc/php.ini
+    regexp="^;mbstring.http_output = SJIS"
+    replace="mbstring.http_output = pass"
+  tags:
+    - php
+
+- name: mbstring.detect_order
+  replace: >
+    dest=/etc/php.ini
+    regexp="^;mbstring.detect_order = auto"
+    replace="mbstring.detect_order = UTF-8,SJIS,EUC-JP,JIS,ASCII"
+  tags:
+    - php
