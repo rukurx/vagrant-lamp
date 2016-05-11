@@ -9,12 +9,23 @@
   tags:
     - mysql
 
-- name: my.cnf設定
+- name: my.cnf設定(文字コード)
   lineinfile: >
     state=present
     dest=/etc/my.cnf
     insertafter='^symbolic-links=0'
     line='character-set-server=utf8'
+  tags: mysql
+
+- name: my.cnf設定(スロークエリ)
+  lineinfile: >
+    state=present
+    dest=/etc/my.cnf
+    insertafter="^character-set-server=utf8"
+    line="{{ item }}"
+  with_items:
+     - log-slow-queries=/var/log/slow.log
+     - long_query_time=10
   tags: mysql
 
 - name: MySQLを起動、自動起動を有効化
@@ -23,6 +34,8 @@
 
 - name: データベース作成
   mysql_db: name={{ db_name }} state=present
+  tags: mysql
 
 - name: ユーザー作成
   mysql_user: name={{ user_name }} password={{ password }} priv=*.*:ALL,GRANT state=present
+  tags: mysql
