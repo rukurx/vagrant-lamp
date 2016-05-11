@@ -27,10 +27,9 @@
     replace='AllowOverride All'
 
 - name: DocumentRoot作成
-  command: mkdir -p {{ apache_document_root }}
-
-- name: DocumentRootのアクセス権変更
-  command: chmod 755 {{ apache_document_root }}
-
-- name: DocumentRootの所有権変更
-  command: chown -R apache.apache {{ apache_document_root }}
+  file:
+    path={{ apache_document_root }}
+    owner=apache
+    group=apache
+    mode=0775
+    state=directory
