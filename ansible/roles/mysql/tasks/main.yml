@@ -9,6 +9,14 @@
   tags:
     - mysql
 
+- name: my.cnf設定
+  lineinfile: >
+    state=present
+    dest=/etc/my.cnf
+    insertafter='^symbolic-links=0'
+    line='character-set-server=utf8'
+  tags: mysql
+
 - name: MySQLを起動、自動起動を有効化
   service: name=mysqld state=running enabled=yes
   tags: mysql
