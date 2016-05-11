@@ -9,11 +9,11 @@
   command: iptables -A INPUT -p icmp -j ACCEPT
 
   # HTTP HTTPS追加
-  command: iptables -I INPUT 5 -p tcp --dport https -j ACCEPT
-  command: iptables -I INPUT 5 -p tcp --dport http -j ACCEPT
+  command: iptables -A INPUT -p tcp --dport https -j ACCEPT
+  command: iptables -A INPUT -p tcp --dport http -j ACCEPT
   tags: iptables
 
   # iptables再起動
-- name: MySQLを起動、自動起動を有効化
+- name: iptablesを起動、自動起動を有効化
   service: name=iptables state=running enabled=yes
   tags: iptables
