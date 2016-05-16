@@ -1,0 +1,26 @@
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+user=mysql
+symbolic-links=0
+
+# 文字コード
+default-character-set=utf8
+skip-character-set-client-handshake
+character-set-server=utf8
+collation-server=utf8_general_ci
+init-connect=SET NAMES utf8
+
+# スロークエリ
+long_query_time=10
+log-slow-queries=/var/log/slow.log
+
+[client]
+default-character-set=utf8
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+
+[mysqldump]
+default-character-set=utf8

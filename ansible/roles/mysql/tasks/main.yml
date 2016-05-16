@@ -9,23 +9,8 @@
   tags:
     - mysql
 
-- name: my.cnf設定(文字コード)
-  lineinfile: >
-    state=present
-    dest=/etc/my.cnf
-    insertafter='^symbolic-links=0'
-    line='character-set-server=utf8'
-  tags: mysql
-
-- name: my.cnf設定(スロークエリ)
-  lineinfile: >
-    state=present
-    dest=/etc/my.cnf
-    insertafter="^character-set-server=utf8"
-    line="{{ item }}"
-  with_items:
-     - log-slow-queries=/var/log/slow.log
-     - long_query_time=10
+- name: my.cnf設定
+  template: src=my.cnf.j2 dest=/etc/my.cnf owner=root group=root mode=0644
   tags: mysql
 
 - name: MySQLを起動、自動起動を有効化
