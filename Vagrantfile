@@ -19,5 +19,5 @@ Vagrant.configure(2) do |config|
   # IP設定
   config.vm.network :private_network, ip: "192.168.34.23"
   # localの共有フォルダのマウント
-  config.vm.synced_folder ".", "/vagrant", mount_options: ["dmode=777", "fmode=666"]
+  # config.vm.synced_folder ".", "/vagrant", mount_options: ["dmode=777", "fmode=666"]
 end
