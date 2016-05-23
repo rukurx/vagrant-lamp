@@ -2,6 +2,7 @@
 - name: 基本パッケージをインストール
   yum: name={{ item }} state=present
   with_items:
+    - '*' # yum -y update
     - gcc
     - gcc-c++
     - make
