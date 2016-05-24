@@ -1,0 +1,33 @@
+# iptablesの設定
+- name: データ無しパケット接続を破棄する
+  command: iptables -A INPUT -p tcp --tcp-flags ALL NONE -j DROP
+  tags: iptables
+
+- name: ステルススキャンを破棄する
+  command: iptables -A INPUT -p tcp --tcp-flags ALL ALL -j DROP
+  tags: iptables
+
+- name: SYNflood攻撃と思われる接続を破棄する
+  command: iptables -A INPUT -p tcp ! --syn -m state --state NEW -j DROP
+  tags: iptables
+
+- name: localhostからの通信許可
+  command: iptables -A INPUT -i lo -j ACCEPT
+  tags: iptables
+
+- name: pingからの通信許可
+  command: iptables -A INPUT -p icmp -j ACCEPT
+  tags: iptables
+
+# HTTP HTTPS追加
+- name: プロトコル追加
+  command: iptables -A INPUT -p tcp --dport {{ item }} -j ACCEPT
+  with_items:
+    - http
+    - https
+  tags: iptables
+
+# iptables再起動
+- name: iptablesを起動、自動起動を有効化
+  service: name=iptables state=running enabled=yes
+  tags: iptables
