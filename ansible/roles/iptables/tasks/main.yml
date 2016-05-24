@@ -1,4 +1,4 @@
 # iptables無効化
 - name: iptablesを無効にする、自動起動も無効化
-  service: name=iptables state=stop enabled=no
+  service: name=iptables state=stopped enabled=no
   tags: iptables
