@@ -4,6 +4,22 @@
   tags:
     - php
 
+- name: EPEL設定ファイル1
+  replace: >
+    dest=/etc/yum.repos.d/epel.repo
+    regexp="^#baseurl="
+    replace="baseurl="
+  tags:
+    - php
+
+- name: EPEL設定ファイル2
+  replace: >
+    dest=/etc/yum.repos.d/epel.repo
+    regexp="^mirrorlist="
+    replace="#mirrorlist="
+  tags:
+    - php
+
 - name: Remiリポジトリがインストール済か
   shell: rpm -q remi-release
   register: remi_release_status
